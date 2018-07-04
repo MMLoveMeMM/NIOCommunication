@@ -1,5 +1,7 @@
 package cn.pumpkin.niocommunication.client.nio;
 
+import android.text.TextUtils;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
@@ -17,6 +19,7 @@ import cn.pumpkin.niocommunication.client.iface.IWriteListener;
 import cn.pumpkin.niocommunication.client.msg.MsgRequest;
 import cn.pumpkin.niocommunication.client.msg.MsgResponse;
 import cn.pumpkin.niocommunication.client.nio.net.ConnectRouter;
+import cn.pumpkin.niocommunication.client.nio.net.TCPConnector;
 import cn.pumpkin.niocommunication.client.timeout.DelayRequest;
 import cn.pumpkin.niocommunication.client.timeout.WaitTimeTask;
 import cn.pumpkin.niocommunication.client.timer.NetTimerTask;
@@ -24,6 +27,8 @@ import cn.pumpkin.niocommunication.client.utils.TimeStamp;
 
 public class TCPProxy implements IConnectListener,IReadListener<MsgResponse>,IWriteListener<MsgRequest>,IExceptionListener<Integer> {
 
+	private String DEF_ROUTER_HOST_IP="127.0.0.1";
+	private int DEF_ROUTER_HOST_PORT=8001;
 	private ConnectRouter mConnectRouter;
 	/*
 	 * 网络监听
@@ -46,9 +51,17 @@ public class TCPProxy implements IConnectListener,IReadListener<MsgResponse>,IWr
 
 	private int mStatus;
 
-	public TCPProxy() {
+	public TCPProxy(String ip,int port) {
 		// 初始化状态标记为未连接
 		mStatus= Status.NET_STATUS_FAIL;
+
+		if(!TextUtils.isEmpty(ip)){
+			DEF_ROUTER_HOST_IP=ip;
+		}
+		if(port>0){
+			DEF_ROUTER_HOST_PORT=port;
+		}
+
 		// 初始化消息队列
 		init();
 	}
@@ -88,7 +101,6 @@ public class TCPProxy implements IConnectListener,IReadListener<MsgResponse>,IWr
 	 * 启动一个线程循环处理状态机
 	 * */
 	public void doWork() {
-
 		// 开始状态机循环
 		new Thread(new Runnable() {
 
@@ -137,7 +149,7 @@ public class TCPProxy implements IConnectListener,IReadListener<MsgResponse>,IWr
 								}
 								mStatus=Status.NIO_CONNECTING;
 								// 这个连接建立或者重新建立
-								mConnectRouter=new ConnectRouter();
+								mConnectRouter=new ConnectRouter(DEF_ROUTER_HOST_IP,DEF_ROUTER_HOST_PORT);
 								mConnectRouter.registerListener(TCPProxy.this);
 								mConnectRouter.connectRouter();
 

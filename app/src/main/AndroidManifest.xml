@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".client.NIOService"
+            android:process="nio.process.client"
+            android:exported="true"/>
+        <service android:name=".server.NIOService"
+            android:process="nio.process.server"
+            android:exported="true"/>
     </application>
 
 </manifest>

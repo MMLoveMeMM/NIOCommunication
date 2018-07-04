@@ -1,13 +1,8 @@
 package cn.pumpkin.niocommunication.client.nio;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,6 +12,7 @@ import cn.pumpkin.niocommunication.client.constants.Status;
 import cn.pumpkin.niocommunication.client.iface.IExceptionListener;
 import cn.pumpkin.niocommunication.client.iface.IWriteListener;
 import cn.pumpkin.niocommunication.client.msg.MsgRequest;
+import cn.pumpkin.niocommunication.client.nio.net.TCPConnector;
 
 public class SendTask implements Runnable{
 

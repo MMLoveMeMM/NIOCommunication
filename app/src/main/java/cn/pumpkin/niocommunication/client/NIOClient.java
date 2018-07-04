@@ -6,7 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import cn.pumpkin.niocommunication.client.iface.ICompleteListener;
 import cn.pumpkin.niocommunication.client.iface.ISendCallBackListener;
 import cn.pumpkin.niocommunication.client.msg.MsgRequest;
-import cn.pumpkin.niocommunication.client.nio.TCPConnector;
+import cn.pumpkin.niocommunication.client.nio.net.TCPConnector;
 import cn.pumpkin.niocommunication.client.nio.TCPProxy;
 
 /**
@@ -18,8 +18,8 @@ import cn.pumpkin.niocommunication.client.nio.TCPProxy;
  */
 
 public class NIOClient implements ICompleteListener<String> {
+
     private TCPConnector mConnector;
-    private BlockingQueue<MsgRequest> mSendQueue;
 
     private TCPProxy mTCPProxy;
 
@@ -52,9 +52,9 @@ public class NIOClient implements ICompleteListener<String> {
 
     };
 
-    public NIOClient() throws IOException {
+    public NIOClient(String ip,int port) throws IOException {
 
-        mTCPProxy=new TCPProxy();
+        mTCPProxy=new TCPProxy(ip,port);
         mTCPProxy.addCompleteListener(this);
         mTCPProxy.doWork();
 

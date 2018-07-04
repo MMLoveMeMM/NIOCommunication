@@ -1,12 +1,15 @@
 package cn.pumpkin.niocommunication.client.nio.net;
 
+import android.text.TextUtils;
+
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.pumpkin.niocommunication.client.constants.Status;
 import cn.pumpkin.niocommunication.client.iface.IConnectListener;
-import cn.pumpkin.niocommunication.client.nio.TCPConnector;
 
 /*
  * 这个类专门用于连接路由设备,连接成功后就返回给代理类继续进行其他开发
@@ -19,13 +22,20 @@ public class ConnectRouter {
 		mListener=listener;
 	}
 
-	private final static String DEF_ROUTER_HOST_IP="127.0.0.1";
-	private final static int DEF_ROUTER_HOST_PORT=8001;
+	private String DEF_ROUTER_HOST_IP="127.0.0.1";
+	private int DEF_ROUTER_HOST_PORT=8001;
 
 	private TCPConnector mConnector;
 	private Timer connTimer = new Timer();
 
-	public ConnectRouter() {
+	public ConnectRouter(String ip,int port) {
+
+		if(!TextUtils.isEmpty(ip)){
+			DEF_ROUTER_HOST_IP=ip;
+		}
+		if(port>0){
+			DEF_ROUTER_HOST_PORT=port;
+		}
 
 	}
 
@@ -37,7 +47,6 @@ public class ConnectRouter {
 
 		// 最好获取网络状态,查询自身的IP地址
 		try {
-
 			if(mConnector!=null && mConnector.isConnect()) {
 				// 如果已经连接上,断开重连,状态机下很难遇到
 				mConnector.close();

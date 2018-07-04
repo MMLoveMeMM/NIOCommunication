@@ -18,6 +18,7 @@ import java.io.IOException;
 
 public class NIOService extends Service {
 
+    private static final int  NIO_TCP_PORT= 9987;
     private NIOServer mNioServer;
     @Nullable
     @Override
@@ -28,8 +29,7 @@ public class NIOService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        mNioServer=new NIOServer(9987);
+        mNioServer=new NIOServer(NIO_TCP_PORT);
         try {
             mNioServer.listen();
         } catch (IOException e) {

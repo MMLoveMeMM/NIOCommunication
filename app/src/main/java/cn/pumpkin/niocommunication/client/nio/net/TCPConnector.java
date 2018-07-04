@@ -1,4 +1,4 @@
-package cn.pumpkin.niocommunication.client.nio;
+package cn.pumpkin.niocommunication.client.nio.net;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

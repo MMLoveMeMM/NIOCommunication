@@ -18,6 +18,8 @@ import java.io.IOException;
 
 public class NIOService extends Service {
 
+    private static final int NIO_PORT = 9987;
+    private static final String NIO_IP="127.0.0.1";//如果是两台设备,这里就输入服务器的IP地址
     private NIOClient mNIOClient;
     @Nullable
     @Override
@@ -30,7 +32,7 @@ public class NIOService extends Service {
         super.onCreate();
 
         try {
-            mNIOClient=new NIOClient();
+            mNIOClient=new NIOClient(NIO_IP,NIO_PORT);
         } catch (IOException e) {
             e.printStackTrace();
         }
