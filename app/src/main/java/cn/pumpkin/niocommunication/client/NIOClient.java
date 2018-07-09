@@ -52,70 +52,13 @@ public class NIOClient implements ICompleteListener<String> {
 
     };
 
-    public NIOClient(String ip,int port) throws IOException {
-
+    public void init(String ip,int port){
         mTCPProxy=new TCPProxy(ip,port);
         mTCPProxy.addCompleteListener(this);
+    }
+
+    public void doWork(){
         mTCPProxy.doWork();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-
-		/*MsgRequest msg=new MsgRequest();
-		msg.setContent("11hello-world");
-		msg.setDuration(3000);
-		msg.setTimeout(3000);
-		msg.setReq_id(1001);
-		msg.setPriority(10);
-		msg.setListener(mListener);
-		msg.setCallbacklistener(mCBListener);
-		mTCPProxy.pushMessage(msg);	*/
-
-		/*MsgRequest msg1=new MsgRequest();
-		msg1.setContent("22hello-world");
-		msg1.setDuration(5000);
-		msg1.setTimeout(5000);
-		msg1.setReq_id(1002);
-		msg1.setPriority(9);
-		msg1.setListener(mListener);
-		msg1.setCallbacklistener(mCBListener0);
-		mTCPProxy.pushMessage(msg1);
-
-		MsgRequest msg12=new MsgRequest();
-		msg12.setContent("33hello-world");
-		msg12.setDuration(50000);
-		msg12.setTimeout(50000);
-		msg12.setReq_id(1003);
-		msg12.setPriority(8);
-		msg12.setListener(mListener);
-		msg12.setCallbacklistener(mCBListener0);
-		mTCPProxy.pushMessage(msg12);*/
-
-		/*mSendQueue=new PriorityBlockingQueue();
-		try {
-			mConnector=new TCPConnector("127.0.0.1",8000);
-			mConnector.createLink("127.0.0.1", 8000);
-			// mConnector.checkConnect();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		mReadTask=new ReadTask(mConnector,mSendQueue);
-		mReadTask.registerListener(this);
-		mReadTask.readWork();
-
-		mWriteTask=new WriteTask(mConnector,mSendQueue);
-
-
-		MsgRequest msg=new MsgRequest();
-		msg.setContent("hello-world");
-		mWriteTask.pushQueue(msg);
-		mWriteTask.sendData();*/
         while(true) {
             try {
                 Thread.sleep(5000);
@@ -133,7 +76,6 @@ public class NIOClient implements ICompleteListener<String> {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override

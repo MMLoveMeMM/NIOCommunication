@@ -3,10 +3,14 @@ package cn.pumpkin.niocommunication.client;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.RemoteException;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+
+import cn.pumpkin.niocommunication.aidl.INIOClientServiceInterface;
+import cn.pumpkin.niocommunication.aidl.INIOServerServiceInterface;
 
 /**
  * @author: zhibao.Liu
@@ -24,19 +28,24 @@ public class NIOService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return stub;
     }
+
+    public INIOClientServiceInterface.Stub stub=new INIOClientServiceInterface.Stub(){
+
+        @Override
+        public void startWork(String ip, int port) throws RemoteException {
+            if(mNIOClient!=null){
+                mNIOClient.init(ip,port);
+                mNIOClient.doWork();
+            }
+        }
+    };
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        try {
-            mNIOClient=new NIOClient(NIO_IP,NIO_PORT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        mNIOClient=new NIOClient();
     }
 
     @Override
