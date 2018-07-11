@@ -1,7 +1,7 @@
 package cn.pumpkin.niocommunication.client.iface;
 
 /*
- * ����״̬�ص�
+ * 连接状态回调
  * */
 public interface IConnectListener {
 	void onStatusChanged(int code);
