@@ -23,10 +23,9 @@ public class ConnectRouter {
 	}
 
 	private String DEF_ROUTER_HOST_IP="127.0.0.1";
-	private int DEF_ROUTER_HOST_PORT=8001;
+	private int DEF_ROUTER_HOST_PORT=9987;
 
 	private TCPConnector mConnector;
-	private Timer connTimer = new Timer();
 
 	public ConnectRouter(String ip,int port) {
 
@@ -67,29 +66,8 @@ public class ConnectRouter {
 		if(mListener!=null) {
 			mListener.onStatusChanged(Status.NIO_NO_CONNECTION_EXCEPTION);
 		}
-		// 如果不能够连接,启动定时器,不断开启重连任务,顶层是状态机,不需要在这里维护
-		// reconnRouter(Status.NIO_NO_CONNECTION_EXCEPTION);
 
 		return false;
-	}
-
-	// 网络出现任何异常,进行重连
-	public void reconnRouter(int type) {
-		connTimer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				if(connectRouter()) {
-					// 连接上了就退出
-					connTimer.cancel();
-					mListener.onStatusChanged(Status.NIO_CONNECTED);
-				}else {
-					// mListener.connectStatus(-1);
-				}
-			}
-
-		}, 5*1000);
 	}
 
 	public boolean isConnect() {

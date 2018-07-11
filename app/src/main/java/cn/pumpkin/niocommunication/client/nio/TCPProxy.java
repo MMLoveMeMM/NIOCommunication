@@ -1,6 +1,7 @@
 package cn.pumpkin.niocommunication.client.nio;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.Date;
@@ -27,8 +28,9 @@ import cn.pumpkin.niocommunication.client.utils.TimeStamp;
 
 public class TCPProxy implements IConnectListener,IReadListener<MsgResponse>,IWriteListener<MsgRequest>,IExceptionListener<Integer> {
 
+	private final static String TAG=TCPProxy.class.getName();
 	private String DEF_ROUTER_HOST_IP="127.0.0.1";
-	private int DEF_ROUTER_HOST_PORT=8001;
+	private int DEF_ROUTER_HOST_PORT=9987;
 	private ConnectRouter mConnectRouter;
 	/*
 	 * 网络监听
@@ -101,6 +103,7 @@ public class TCPProxy implements IConnectListener,IReadListener<MsgResponse>,IWr
 	 * 启动一个线程循环处理状态机
 	 * */
 	public void doWork() {
+		Log.d(TAG,"client machine ready to work");
 		// 开始状态机循环
 		new Thread(new Runnable() {
 
@@ -223,7 +226,7 @@ public class TCPProxy implements IConnectListener,IReadListener<MsgResponse>,IWr
 	 * 登入
 	 * */
 	private void loginRouter() {
-		System.out.println("start to login!");
+		Log.d(TAG,"start to login!");
 		MsgRequest msg=new MsgRequest();
 		msg.setBody("start to login");
 		msg.setInqueuetime(System.currentTimeMillis());
@@ -249,7 +252,7 @@ public class TCPProxy implements IConnectListener,IReadListener<MsgResponse>,IWr
 		@Override
 		public void onComplete(Object msg, int code) {
 			// TODO Auto-generated method stub
-			System.out.println("****************login code : "+code);
+			Log.d(TAG,"****************login code : "+code);
 			if(code==0) {
 				mStatus=Status.ROUTER_LOGINED;//登入成功
 			}else {
@@ -271,7 +274,7 @@ public class TCPProxy implements IConnectListener,IReadListener<MsgResponse>,IWr
 		// TODO Auto-generated method stub
 		synchronized(TCPProxy.this) {
 			mStatus=code;
-			System.out.println("+++ status change : "+code);
+			Log.d(TAG,"+++ status change : "+code);
 		}
 
 	}
@@ -301,6 +304,7 @@ public class TCPProxy implements IConnectListener,IReadListener<MsgResponse>,IWr
 	@Override
 	public void onReceiver(MsgResponse message,int code) {
 		// TODO Auto-generated method stub
+		Log.d(TAG,"onReceiver msg : "+message.getResultMessage());
 		if(message!=null) {
 			// 入读取数据的队列
 			//mReadQueue.offer(message);//未初始化

@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -21,19 +22,21 @@ import cn.pumpkin.niocommunication.aidl.INIOServerServiceInterface;
 
 public class NIOService extends Service {
 
+    private static final String TAG=NIOService.class.getName();
     private static final int  NIO_TCP_PORT= 9987;
     private NIOServer mNioServer;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        Log.i(TAG,"server bind service OK");
+        return stub;
     }
 
     public INIOServerServiceInterface.Stub stub=new INIOServerServiceInterface.Stub(){
-
         @Override
         public void startWork(int port) throws RemoteException {
-            mNioServer=new NIOServer(NIO_TCP_PORT);
+            Log.i(TAG,"server start work port : "+port);
+            mNioServer=new NIOServer(port);
             try {
                 mNioServer.listen();
             } catch (IOException e) {

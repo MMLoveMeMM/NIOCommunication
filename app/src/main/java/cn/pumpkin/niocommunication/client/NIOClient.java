@@ -1,5 +1,7 @@
 package cn.pumpkin.niocommunication.client;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
@@ -19,6 +21,7 @@ import cn.pumpkin.niocommunication.client.nio.TCPProxy;
 
 public class NIOClient implements ICompleteListener<String> {
 
+    private final static String TAG=NIOClient.class.getName();
     private TCPConnector mConnector;
 
     private TCPProxy mTCPProxy;
@@ -28,7 +31,7 @@ public class NIOClient implements ICompleteListener<String> {
         @Override
         public void onComplete(Object code) {
             // TODO Auto-generated method stub
-            System.out.println("------------------");
+            Log.d(TAG,"------------------");
         }
 
     };
@@ -38,7 +41,7 @@ public class NIOClient implements ICompleteListener<String> {
         @Override
         public void onComplete(Object msg, int code) {
             // TODO Auto-generated method stub
-            System.out.println("***************** code : "+code);
+            Log.d(TAG,"***************** code : "+code);
         }
 
     };
@@ -47,17 +50,20 @@ public class NIOClient implements ICompleteListener<String> {
         @Override
         public void onComplete(Object msg, int code) {
             // TODO Auto-generated method stub
-            System.out.println("*****************000 code : "+code);
+            Log.d(TAG,"*****************000 code : "+code);
         }
 
     };
 
     public void init(String ip,int port){
+        Log.d(TAG,"客服端开始初始化");
         mTCPProxy=new TCPProxy(ip,port);
         mTCPProxy.addCompleteListener(this);
+        Log.d(TAG,"客服端初始化完成");
     }
 
     public void doWork(){
+        Log.d(TAG,"客服端开始运行");
         mTCPProxy.doWork();
         while(true) {
             try {
