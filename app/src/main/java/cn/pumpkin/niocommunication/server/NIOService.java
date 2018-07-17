@@ -24,7 +24,7 @@ public class NIOService extends Service {
 
     private static final String TAG=NIOService.class.getName();
     private static final int  NIO_TCP_PORT= 9987;
-    private NIOServer mNioServer;
+    //private NIOServer mNioServer;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -36,7 +36,7 @@ public class NIOService extends Service {
         @Override
         public void startWork(int port) throws RemoteException {
             Log.i(TAG,"server start work port : "+port);
-            mNioServer=new NIOServer(port);
+            NIOServer mNioServer=new NIOServer(port);
             try {
                 mNioServer.listen();
             } catch (IOException e) {

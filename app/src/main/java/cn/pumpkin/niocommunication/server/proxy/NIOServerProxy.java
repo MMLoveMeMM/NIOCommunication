@@ -24,31 +24,16 @@ public class NIOServerProxy implements ServiceConnection {
 
     private final static String TAG=NIOServerProxy.class.getName();
     private final static String SERVICE_DEFUALT_CLASSNAME = "cn.pumpkin.niocommunication.server.NIOService";
-    private static NIOServerProxy instance;
 
     private INIOServerServiceInterface service;
     private static String gPackageName;
     private static String gClassName;
-    private static Context gContext;
+    private Context gContext;
 
-    public static NIOServerProxy getInstance() {
-        return instance;
-    }
-
-    private NIOServerProxy() {
-    }
-
-    public static void init(Context context, Looper looper, String packageName) {
-
-        if (instance != null) {
-            // TODO: Already initialized
-            return;
-        }
+    public void init(Context context, Looper looper, String packageName) {
         gContext = context.getApplicationContext();
         gPackageName = (packageName == null ? context.getPackageName() : packageName);
         gClassName = SERVICE_DEFUALT_CLASSNAME;
-        instance = new NIOServerProxy();
-
     }
 
 
@@ -72,7 +57,7 @@ public class NIOServerProxy implements ServiceConnection {
 
         if (service == null) {
             Intent iSrv = new Intent().setClassName(gPackageName, gClassName);
-            if (!gContext.bindService(iSrv, instance, Service.BIND_AUTO_CREATE)) {
+            if (!gContext.bindService(iSrv, this, Service.BIND_AUTO_CREATE)) {
                 Log.e(TAG, "remote service bind failed");
             }
             return;

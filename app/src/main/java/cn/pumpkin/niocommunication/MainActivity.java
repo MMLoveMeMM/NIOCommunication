@@ -8,6 +8,8 @@ import cn.pumpkin.niocommunication.server.proxy.NIOServerProxy;
 
 public class MainActivity extends Activity {
 
+    private NIOServerProxy mNIOServerProxy;
+    private NIOClientProxy mNIOClientProxy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,11 +20,13 @@ public class MainActivity extends Activity {
 
     public void init(){
 
-        //NIOClientProxy.init(getApplicationContext(),null,null);
-        //NIOClientProxy.getInstance().onBindService();
+        mNIOClientProxy=new NIOClientProxy();
+        //mNIOClientProxy.init(getApplicationContext(),null,null);
+        //mNIOClientProxy.onBindService();
 
-        NIOServerProxy.init(getApplicationContext(),null,null);
-        NIOServerProxy.getInstance().onBindService();
+        mNIOServerProxy=new NIOServerProxy();
+        mNIOServerProxy.init(getApplicationContext(),null,null);
+        mNIOServerProxy.onBindService();
 
     }
 
@@ -38,8 +42,8 @@ public class MainActivity extends Activity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                // NIOClientProxy.getInstance().startWork("127.0.0.1",9987);
-                NIOServerProxy.getInstance().startWork(9987);
+                // mNIOClientProxy.startWork("127.0.0.1",9987);
+                mNIOServerProxy.startWork(9987);
 
             }
         }).start();

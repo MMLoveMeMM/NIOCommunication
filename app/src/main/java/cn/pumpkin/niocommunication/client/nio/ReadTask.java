@@ -16,7 +16,6 @@ import cn.pumpkin.niocommunication.client.nio.net.TCPConnector;
 
 public class ReadTask implements Runnable{
 
-	private Selector selector;
 	private SelectionKey mSelectKey;
 	private ByteBuffer mainBuffer;//主缓冲区，用于直接全部读取所有可用内容，包括截断包
 	private BlockingQueue<MsgResponse> mReadQueue; // 發送的消息先入隊列
@@ -31,7 +30,7 @@ public class ReadTask implements Runnable{
 
 	public ReadTask(TCPConnector connector) throws IOException {
 		mTCPConnector=connector;
-		selector=Selector.open();
+		Selector selector=Selector.open();
 		mReadQueue=new PriorityBlockingQueue();
 		mainBuffer = ByteBuffer.allocate(64);
 	}
